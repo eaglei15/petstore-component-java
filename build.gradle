@@ -1,11 +1,22 @@
+plugins {
+        id 'org.cyclonedx.bom'  // CycloneDX SBOM Generator Plugin
+}
+
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java-library-distribution'
 
+cyclonedxBom {
+    // includeConfigs is the list of configuration names to include when generating the BOM (leave empty to include every configuration)
+    includeConfigs += ["runtimeClasspath"]
+    // skipConfigs is a list of configuration names to exclude when generating the BOM
+    skipConfigs += ["compileClasspath", "testCompileClasspath"]
+}
+
 group = 'io.elastic'
-version = '1.0.2'
+version = project.findProperty('projVersion') ?: '2.1.0'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
